@@ -1,8 +1,8 @@
-# SocialSentinel: Real-time Social Media Comment Analyzer
+# Sentio: Real-time Social Media Comment Analyzer
 
-![SocialSentinel Concept](https://via.placeholder.com/800x400?text=Social+Media+Sentiment+Analysis+Demo)
+![Sentiol Concept](https://via.placeholder.com/800x400?text=Social+Media+Sentiment+Analysis+Demo)
 
-**SocialSentinel** is an open-source application that analyzes social media comments in real-time, categorizing them into positive, negative, and neutral sentiments. Simply paste any social media post URL to get instant sentiment analysis.
+**Sentio** is an open-source application that analyzes social media comments in real-time, categorizing them into positive, negative, and neutral sentiments. Simply paste any social media post URL to get instant sentiment analysis.
 
 ## 🚀 Features
 
