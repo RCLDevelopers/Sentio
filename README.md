@@ -1,135 +1,177 @@
+Here's the enhanced README with a detailed **How It Works** diagram, **sequence diagram**, and **installation steps**:
+
+---
+
 # **Sentio AI: Advanced Social Media Sentiment Analyzer**  
 **Owned and Developed by Zangtics Digital**  
 
-![Sentio AI Banner](https://via.placeholder.com/1200x400?text=Sentio+AI+-+Real-Time+Sentiment+Analysis)  
-
-**Sentio AI** is a proprietary social media sentiment analysis platform developed by **Zangtics Digital**. It provides **real-time categorization** of social media comments into **Positive, Negative, and Neutral** sentiments by simply analyzing the post URL.  
-
-🔹 **Instant Insights** – No manual reading required  
-🔹 **Multi-Platform Support** – Works with Twitter, Reddit, Facebook, Instagram, and more  
-🔹 **Enterprise-Grade AI** – Advanced NLP models for high accuracy  
-🔹 **Actionable Analytics** – Exportable reports for strategic decision-making  
+![Sentio AI Architecture](https://via.placeholder.com/1200x500?text=Sentio+AI+Architecture+Diagram)
 
 ---
 
-## **📌 How Sentio AI Works**  
+## **🔍 How It Works**  
 
-Sentio AI follows a **structured pipeline** to analyze social media comments with precision:  
+### **System Diagram**  
+```mermaid
+graph TD
+    A[User Pastes URL] --> B(Frontend: React App)
+    B --> C{Backend: FastAPI Server}
+    C --> D[Platform Detector]
+    D --> E[Twitter API]
+    D --> F[Reddit API]
+    D --> G[Facebook Graph API]
+    E & F & G --> H[Comment Aggregator]
+    H --> I[NLP Engine]
+    I --> J[Sentiment Classification]
+    J --> K[Results Dashboard]
+    K --> L[User]
+```
 
-### **1️⃣ Step 1: User Input – Post URL Submission**  
-- Users paste a **social media post link** (e.g., a Tweet, Reddit thread, or Facebook post).  
-- Sentio AI **validates the URL** and identifies the platform.  
-
-### **2️⃣ Step 2: Data Fetching – API Integration**  
-- The system connects to the respective **social media API** (Twitter API, Reddit API, Facebook Graph API, etc.).  
-- It extracts:  
-  - **Post metadata** (author, content, engagement metrics)  
-  - **All comments/replies** in real-time  
-  - **User reactions** (likes, upvotes, retweets)  
-
-### **3️⃣ Step 3: Sentiment Analysis – AI Classification**  
-- **Natural Language Processing (NLP) Engine** processes each comment:  
-  - **Positive** ✅ (Agrees/supports the post)  
-  - **Negative** ❌ (Opposes/criticizes the post)  
-  - **Neutral** ⚖️ (Neutral stance or factual statements)  
-- **Machine Learning Models Used:**  
-  - **DistilBERT** (for fast, high-accuracy sentiment scoring)  
-  - **Custom-trained models** (to detect sarcasm, emojis, and slang)  
-  - **Context-aware scoring** (adjusts for platform-specific trends)  
-
-### **4️⃣ Step 4: Dashboard & Reporting**  
-- **Interactive Dashboard** displays:  
-  - **Sentiment distribution** (pie chart & percentages)  
-  - **Top keywords** in each sentiment category  
-  - **Engagement trends** (most active commenters)  
-- **Exportable Reports** (CSV, JSON, PDF)  
-
----
-
-## **🛠️ Technical Architecture**  
-
-### **🔹 Frontend (User Interface)**  
-- **React.js** (Dynamic UI)  
-- **Tailwind CSS** (Styling)  
-- **Chart.js** (Data visualization)  
-
-### **🔹 Backend (Processing Engine)**  
-- **Python (FastAPI)** – Handles API requests & business logic  
-- **Node.js (Express)** – Real-time WebSocket updates  
-- **Redis** – Caching for faster responses  
-- **Celery + RabbitMQ** – Asynchronous task queue  
-
-### **🔹 AI & Data Processing**  
-- **HuggingFace Transformers** (Pre-trained NLP models)  
-- **spaCy** (Text processing)  
-- **Custom-trained classifiers** (Platform-specific tuning)  
-
-### **🔹 APIs & Integrations**  
-| Platform | API Used | Key Features |
-|----------|----------|--------------|
-| **Twitter** | Tweepy + Twitter API v2 | Handles tweets, replies, retweets |
-| **Reddit** | PRAW (Python Reddit API Wrapper) | Scans threads, upvotes/downvotes |
-| **Facebook/Instagram** | Facebook Graph API | Accesses posts & comments |
-| **YouTube** | YouTube Data API | Analyzes video comments |
+### **Step-by-Step Sequence**  
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant SocialAPIs
+    participant NLP
+    
+    User->>Frontend: Paste Post URL (e.g., Twitter/Reddit link)
+    Frontend->>Backend: POST /analyze {url: "https://twitter.com/..."}
+    Backend->>Backend: URL Parser: Extract platform & post ID
+    alt Platform = Twitter
+        Backend->>SocialAPIs: Tweepy API Request (Bearer Token)
+    else Platform = Reddit
+        Backend->>SocialAPIs: PRAW API Request (Client Secret)
+    end
+    SocialAPIs-->>Backend: JSON Response (Comments + Metadata)
+    loop Each Comment
+        Backend->>NLP: POST /analyze {text: comment_body}
+        NLP->>NLP: DistilBERT Inference
+        NLP-->>Backend: {sentiment: "positive", score: 0.87}
+    end
+    Backend->>Backend: Aggregate Results
+    Backend->>Frontend: HTTP 200 {positive: 62%, negative: 15%, neutral: 23%}
+    Frontend->>User: Render Interactive Dashboard
+```
 
 ---
 
-## **🚀 Key Features**  
+## **🛠️ Installation & Setup**  
 
-### **✅ Real-Time Sentiment Breakdown**  
-- **Instant classification** of comments as they load  
-- **Dynamic updating** for new replies  
+### **Prerequisites**  
+- Python 3.10+  
+- Node.js 18+  
+- Redis Server  
+- Social Media API Keys:  
+  - [Twitter Developer Portal](https://developer.twitter.com)  
+  - [Reddit App Credentials](https://www.reddit.com/prefs/apps)  
+  - [Facebook Developer Account](https://developers.facebook.com)  
 
-### **✅ Multi-Platform Compatibility**  
-- Works with **Twitter, Reddit, Facebook, Instagram, YouTube, LinkedIn**  
+### **1. Backend Setup**  
+```bash
+# Clone the repository (private repo access required)
+git clone https://github.com/zangticsdigital/sentio-ai.git
+cd sentio-ai/backend
 
-### **✅ Advanced AI Detection**  
-- Detects **sarcasm, emojis, slang, and multilingual comments**  
-- **Context-aware scoring** (understands nuanced opinions)  
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
 
-### **✅ Business & Marketing Applications**  
-- **Brand monitoring** (track public perception)  
-- **Competitor analysis** (compare sentiment across posts)  
-- **Crisis detection** (identify PR risks early)  
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your API keys:
+TWITTER_BEARER_TOKEN=your_key_here
+REDDIT_CLIENT_ID=your_id_here
+REDDIT_CLIENT_SECRET=your_secret_here
+```
+
+### **2. NLP Service Setup**  
+```bash
+cd ../nlp-service
+docker build -t sentio-nlp .
+docker run -p 5001:5001 sentio-nlp
+```
+
+### **3. Frontend Setup**  
+```bash
+cd ../frontend
+npm install
+# Configure API endpoint
+echo "VITE_API_URL=http://localhost:8000" > .env
+```
+
+### **4. Run the System**  
+```bash
+# Terminal 1: Start Backend
+cd backend && uvicorn main:app --reload
+
+# Terminal 2: Start Frontend
+cd ../frontend && npm run dev
+
+# Terminal 3: Start Celery Worker (for async tasks)
+celery -A tasks worker --loglevel=info
+```
+
+Access the app at:  
+🌐 [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## **🔒 Data Privacy & Compliance**  
+## **📊 Sentiment Analysis Logic**  
+```python
+# Example NLP Classification (backend/services/nlp.py)
+from transformers import pipeline
 
-- **GDPR & CCPA compliant** (No personal data stored without consent)  
-- **Enterprise-grade security** (Encrypted API calls, OAuth 2.0)  
-- **Strict rate-limiting** (Follows platform API policies)  
-
----
-
-## **📈 Future Roadmap**  
-
-🔸 **Live sentiment tracking** (Track changes over time)  
-🔸 **Influencer impact scoring** (Measure comment influence)  
-🔸 **Automated report generation** (Scheduled sentiment reports)  
-🔸 **Browser extension** (Analyze posts without leaving the page)  
-
----
-
-## **📬 Contact Zangtics Digital**  
-
-For **business inquiries, partnerships, or demo requests**, contact:  
-
-🌐 **Website:** [www.zangticsdigital.com](https://www.zangticsdigital.com)  
-📧 **Email:** [contact@zangticsdigital.com](mailto:contact@zangticsdigital.com)  
-📞 **Phone:** [+1 (XXX) XXX-XXXX]  
+class SentimentAnalyzer:
+    def __init__(self):
+        self.model = pipeline(
+            "sentiment-analysis",
+            model="distilbert-base-uncased-finetuned-sst-2-english",
+            device="cuda"  # Use GPU if available
+        )
+    
+    def classify(self, text: str) -> dict:
+        result = self.model(text)[0]
+        if result['score'] >= 0.7:
+            return {"sentiment": "positive", "confidence": result['score']}
+        elif result['score'] <= 0.3:
+            return {"sentiment": "negative", "confidence": 1 - result['score']}
+        else:
+            return {"sentiment": "neutral", "confidence": 0.5}
+```
 
 ---
 
-### **© 2024 Zangtics Digital. All Rights Reserved.**  
-*Sentio AI is a proprietary product. Unauthorized use or distribution is prohibited.*  
+## **📌 Key Technical Components**  
+
+| Component | Purpose | Technology |
+|-----------|---------|------------|
+| **URL Router** | Detect platform from URL | Python (FastAPI Router) |
+| **API Proxy** | Handle platform-specific APIs | Requests + OAuth2 |
+| **Comment Queue** | Process high-volume comments | Redis + Celery |
+| **Sentiment Engine** | Real-time classification | HuggingFace Transformers |
+| **Dashboard** | Visualize results | React + D3.js |
 
 ---
 
-### **Next Steps for Development**  
-1. **Set up API access** for each social platform  
-2. **Train custom NLP models** for higher accuracy  
-3. **Build the dashboard UI** with real-time updates  
-4. **Implement export functionality** (CSV/PDF reports)  
+## **🔒 Security Notes**  
+- All API requests are **rate-limited** to comply with platform policies  
+- Comment data is **never stored permanently** without user consent  
+- Uses **JWT authentication** for API endpoints  
 
-Would you like additional details on any section? (e.g., API integration specifics, UI mockups, or deployment strategies)
+---
+
+**© 2024 Zangtics Digital. Proprietary Technology.**  
+For licensing inquiries: legal@zangticsdigital.com  
+
+--- 
+
+Would you like me to add:  
+1. Detailed API documentation?  
+2. Screenshots of the dashboard UI?  
+3. Deployment guide for AWS/GCP?
