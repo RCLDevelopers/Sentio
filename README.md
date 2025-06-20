@@ -1,4 +1,4 @@
-Here's the enhanced README with a detailed **How It Works** diagram, **sequence diagram**, and **installation steps**:
+Here's the Detailed README with a detailed **How It Works** diagram, **sequence diagram**, and **installation steps**:
 
 ---
 
