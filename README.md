@@ -166,8 +166,8 @@ class SentimentAnalyzer:
 
 ---
 
-**© 2024 Zangtics Digital. Proprietary Technology.**  
-For licensing inquiries: legal@zangticsdigital.com  
+**© 2025 Zangtics Digital. Proprietary Technology.**  
+For licensing inquiries: info@zangticsdigital.com  
 
 --- 
 
